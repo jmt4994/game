@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Something
+		</title>
+		<style>
+			body {
+				background-color: rgb(55, 50, 50);
+				color: rgb(250, 245, 245);
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <button onclick="createText()">Add Text</button> -->
+		<p style="font-size: 20px; color: rgb(85, 80, 80); font-family: monospace;">Start typing...</p>
+		<!-- <br> -->
+
+		<script>
+			const gnarlyPong = [
+				'<!DOCTYPE html>',
+				'<html>',
+				'	  <head>',
+				'        <title>',
+				'            Gnarly Pong',
+				'        </title>',
+				'        <style>',
+				'            * {',
+				'                font-family: monospace, sans-serif;',
+				'            }',
+				'            body {',
+				'                text-align: center;',
+				'                background-color: ghostwhite;',
+				'            }',
+				'        </style>',
+				'	  </head>',
+				'	  <body>',
+				'        <h1>Gnarly Pong</h1>',
+				'        <p>Use the [W] and [S] keys to control the paddle</p>',
+				'        <br>',
+				'        <canvas id="ctx" width="500" height="500"></canvas>',
+				'        <script>',
+				'            var ctx = document.getElementById("ctx").getContext("2d");',
+				'            ctx.fillStyle = "rgb(72, 61, 139)";',
+				'            ctx.fillRect(0, 0, 500, 500);',
+				'',
+				'            ctx.fillStyle = "rgb(248, 248, 255)";',
+				'            ctx.font = "15px Monospace";',
+				'            ctx.fillText("Press [Space] to start", 170, 250);',
+				'',
+				'            playerX = 75;',
+				'            playerY = 230;',
+				'',
+				'            squareX = 245;',
+				'            squareY = 100;',
+				'            squareSpX = 5;',
+				'            squareSpY = 5;',
+				'            var gameLoop = 0;',
+				'            hp = 10;',
+				'            score = 0;',
+				'            const neinHp = ["Oof!", "Kaboom!", "Ouch!", "Kaboom!", "Ouch!", "Oof!", "Oof!", "Kaboom!", "Ouch!"];',
+				'            neinHpIndex = -1;',
+				'            milsToDel = 0;',
+				'            neinHpY = 0;',
+				'            neinHpX = 0;',
+				'            window.onkeypress = function(event) {',
+				'                if(event.which == 32) {',
+				'                    if(gameLoop == 0) {',
+				'                        ctx.fillStyle = "rgb(72, 61, 139)";',
+				'                        ctx.fillRect(0, 0, 500, 500);',
+				'',
+				'                        gameLoop = 1;',
+				'',
+				'                        setInterval(moveBall, 25);',
+				'                        setInterval(updateScreen, 1);',
+				'                    }',
+				'                } else {',
+				'                    if(gameLoop == 1) {',
+				'                        movePlayer(event.which);',
+				'                    }',
+				'                }',
+				'            }',
+				'',
+				'            function updateScreen() {',
+				'                if(gameLoop == 1) {',
+				'                    ctx.fillStyle = "rgb(72, 61, 139)";',
+				'                    ctx.fillRect(0, 0, 500, 500);',
+				'                    ctx.fillStyle = "rgb(248, 248, 255)";',
+				'                    ctx.fillRect(playerX, playerY, 10, 50);',
+				'                    ctx.fillRect(squareX, squareY, 10, 10);',
+				'                    ctx.font = "15px Monospace";',
+				'                    ctx.fillText("HP: " + hp, 15, 25);',
+				'                    ctx.fillText("Score: " + score, 15, 45);',
+				'                    if(milsToDel > 0) {',
+				'                        ctx.font = "15px Monospace";',
+				'                        ctx.fillStyle = "rgb(248, 248, 255)";',
+				'                        ctx.fillText(neinHp[neinHpIndex], neinHpX, neinHpY);',
+				'                    }',
+				'                }',
+				'            }',
+				'',
+				'            function movePlayer(e) {',
+				'                if(e == 119) {',
+				'                    playerY -= 10;',
+				'                    if(playerY == -10) {',
+				'                        playerY = 0;',
+				'                    }',
+				'                } else {',
+				'                    if(e == 115) {',
+				'                        playerY += 10;',
+				'                        if(playerY == 460) {',
+				'                            playerY = 450;',
+				'                        }',
+				'                    }',
+				'                }',
+				'            }',
+				'',
+				'            function moveBall() {',
+				'                if(milsToDel > 0) {',
+				'                    milsToDel -= 1;',
+				'                }',
+				'                squareX += squareSpX;',
+				'                squareY += squareSpY;',
+				'                if(squareX == 495) {',
+				'                    squareSpX = -5;',
+				'                }',
+				'                if(squareX == 0) {',
+				'                    squareSpX = 5;',
+				'                    hp -= 1;',
+				'                    neinHpIndex += 1;',
+				'                    milsToDel = 20;',
+				'                    neinHpX = squareX + 10;',
+				'                    neinHpY = squareY;',
+				'                    if(hp == 0) {',
+				'                        gameLoop = 2;',
+				'                        ctx.fillStyle = "rgb(72, 61, 139)";',
+				'                        ctx.fillRect(0, 0, 500, 500);',
+				'                        ctx.fillStyle = "rgb(255, 130, 130)";',
+				'                        ctx.font = "50px Monospace";',
+				'                        ctx.fillText("Game Over", 125, 250);',
+				'                        ctx.font = "15px Monospace";',
+				'                        ctx.fillStyle = "rgb(248, 248, 255)";',
+				'                        ctx.fillText("Please reload to play again", 135, 280);',
+				'                        ctx.fillStyle = "rgb(248, 248, 255)";',
+				'                        ctx.fillText("Score: " + score, 15, 25);',
+				'                    }',
+				'                }',
+				'                if(squareY == 495) {',
+				'                    squareSpY = -5;',
+				'                }',
+				'                if(squareY == 0) {',
+				'                    squareSpY = 5;',
+				'                }',
+				'                if(squareX == 75 && squareY < playerY + 51 && squareY > playerY - 10) {',
+				'                    score += 1;',
+				'                    if(squareSpX == -5) {',
+				'                        squareSpX = 5;',
+				'                    } else {',
+				'                        squareSpX = -5;',
+				'                    }',
+				'                }',
+				'            }',
+				'        < /script>',
+				'	  </body>',
+				'</html>',
+				'',
+				'',
+				'',
+				'',
+				'---------------------------- CODE COMPLETE ----------------------------',
+				'--                    ',
+				'--                    '
+			];
+			var i = -1;
+			var isLink = 0;
+
+			window.addEventListener("keypress", createText);
+			
+			function createText() {
+				i++
+				if(i<gnarlyPong.length) {
+				
+					node = document.createTextNode("Line " + (i+1) + ":        " + gnarlyPong[i]);
+					text = document.createElement("pre");
+					text.appendChild(node);
+					text.style = "margin: 0px; padding: 0px; font-size: 10px; font-family: monospace";
+					document.body.appendChild(text);
+					window.scrollBy(0, 20);
+				} else {
+					if(isLink == 0) {
+						isLink = 1;
+						var a = document.createElement("a");
+						var linkText = document.createTextNode("- - - - - - - - - - - - - Launch game - - - - - - - - - - - - -");
+						a.appendChild(linkText);
+						a.text = "Line 153: c://user/file compiled:true init ready --- Launch game ";
+						a.title = "link";
+						a.href = "squareBall2.html";
+						a.style = "color: rgb(125, 125, 255)";
+						document.body.appendChild(a);
+						window.scrollBy(0, 20);
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
